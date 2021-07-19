@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Character.css'
 
-const Character = () => {
+const Character = (props) => {
     const [gender, setGender] = useState('male')
     const [positionX, setPositionX] = useState(0)
     const [positionY, setPositionY] = useState(0)

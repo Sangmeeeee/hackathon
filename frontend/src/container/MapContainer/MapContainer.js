@@ -5,7 +5,7 @@ import {Character} from '../../components/'
 const MapContainer = () =>  {
     return (
         <div className="MapContainer">
-            <Character></Character>
+            <Character myCharacter='mine'></Character>
         </div>
     )
 }
