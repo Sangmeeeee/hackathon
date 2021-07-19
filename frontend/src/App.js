@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
-
+import {MapContainer} from './container'
 
 
 function App() {
@@ -32,7 +32,8 @@ function App() {
 
   return (
     <div className="App">
-      <img className='myChar' src='img/down.png' width='100' height='100' style={{position:'absolute'}} />
+      <MapContainer>
+      </MapContainer>
     </div>
   );
 }
