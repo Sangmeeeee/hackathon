@@ -1,0 +1,15 @@
+.JoinContainer{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.JoinSearch{
+    width: 50%;
+    height:30%;
+}
+
+.SearchResult{
+    width: 50%;
+    height: 50%;
+}
