@@ -1,41 +1,21 @@
-import logo from './logo.svg';
+
 import './App.css';
-import { useEffect, useState } from 'react';
+import { Route, Router } from 'react-router-dom'
 import {MapContainer} from './container'
+import {Menus} from './components'
+import { MainContainer, LoginCotainer, SignupContainer } from './container';
+import { Container, Divider, Button, Icon, Menu } from 'semantic-ui-react'
 
 
 function App() {
-// const [positionX, setpositionX] = useState(0)
-// const [positionY, setpositionY] = useState(0)
-// useEffect(() =>  {
-//   window.addEventListener('keypress', (e) => {
-//     switch(e.code){
-//       case 'KeyD' : 
-//         document.getElementsByClassName('myChar')[0].src = 'img/right.png'
-//         document.getElementsByClassName('myChar')[0].style.right += 10
-//         break;
-//       case 'KeyA' :
-//         document.getElementsByClassName('myChar')[0].src = 'img/left.png'
-//         document.gectElementsByClassName('myChar')[0].style.left += 10
-//         break;
-//       case 'KeyW' :
-//         document.getElementsByClassName('myChar')[0].src = 'img/up.png'
-//         document.getElementsByClassName('myChar')[0].style.top += 10
-//         break;
-//       case 'KeyS' :
-//         document.getElementsByClassName('myChar')[0].src = 'img/down.png'
-//         document.getElementsByClassName('myChar')[0].style.bottom += 10
-//         break;
-//     }
-//   })
-// })
-
   return (
     <div className="App">
-      <MapContainer>
-      </MapContainer>
+      <Route exact path="/" component={LoginCotainer}/>
+      <Route exact path="/Signup" component={SignupContainer}/>
+      <Menus></Menus>
+      <MainContainer></MainContainer>
     </div>
-  );
+  )
 }
 
 export default App;
