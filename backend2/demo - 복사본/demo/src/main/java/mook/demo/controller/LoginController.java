@@ -10,10 +10,7 @@ import mook.demo.session.SessionManager;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -60,19 +57,20 @@ public class LoginController {
                         @RequestParam(defaultValue = "/") String redirectURL,
                         HttpServletRequest request){
         if (bindingResult.hasErrors()) {
-            return "login/loginForm";
+            return "/";
         }
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
         log.info("login? {}", loginMember);
 
         if(loginMember == null){
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "login/loginForm";
+            return "/";
         }
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        return "redirect:" + redirectURL;
+//        return "redirect:" + redirectURL;
+        return "/";
     }
 
 

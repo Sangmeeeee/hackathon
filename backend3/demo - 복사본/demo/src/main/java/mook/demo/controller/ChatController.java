@@ -2,6 +2,7 @@ package mook.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mook.demo.apiresult.ApiResponseMessage;
 import mook.demo.domain.ChatRoom;
 import mook.demo.domain.Member;
 import mook.demo.dto.ChatRoomForm;
@@ -53,8 +54,11 @@ public class ChatController {
     }
 
     @PostMapping("/room/new")
-    public String makeRoom(ChatRoomForm form) {
-        chatRoomRepository.createChatRoom(form.getName());
-        return "redirect:/chat/";
+    public ApiResponseMessage makeRoom(@RequestBody ChatRoomForm form) {
+        ApiResponseMessage apiResponseMessage = new ApiResponseMessage();
+        chatRoomRepository.createChatRoom(form.getName(), form.getDescription());
+        apiResponseMessage.setStatus("success");
+        apiResponseMessage.setMessage("방을 성공적으로 만들었습니다.");
+        return apiResponseMessage;
     }
 }

@@ -20,13 +20,14 @@ public class ChatRoom {
 
     private String roomId;
     private String name;
+    private String description;
     private Set<WebSocketSession> sessions = new HashSet<>();
 
-    public static ChatRoom create(String name){
+    public static ChatRoom create(String name, String description){
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.roomId = UUID.randomUUID().toString();
         chatRoom.name = name;
-
+        chatRoom.description = description;
         return chatRoom;
     }
 

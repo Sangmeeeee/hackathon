@@ -24,8 +24,13 @@ public class LoginCheckFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException{
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String requestURI = httpRequest.getRequestURI();
-
         HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+        httpResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); //허용대상 도메인
+        httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        httpResponse.setHeader("Access-Control-Max-Age", "3600");
+        httpResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with, origin, content-type, accept");
 
         try {
             log.info("인증 체크 필터 시작 {}", requestURI);
@@ -36,12 +41,13 @@ public class LoginCheckFilter implements Filter {
                 if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
                     log.info("미인증 사용자 요청 {}", requestURI);
                     //로그인으로 redirect
-                    httpResponse.sendRedirect("/login?redirectURL=" + requestURI);
+//                    httpResponse.sendRedirect("/login?redirectURL=" + requestURI);
                     return;
                 }
             }
 
-            chain.doFilter(request, response);
+//            chain.doFilter(request, response);
+            chain.doFilter(request,httpResponse);
         } catch (Exception e){
             throw e;
         } finally{

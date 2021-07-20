@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor()
+@RequiredArgsConstructor
 @RequestMapping("/api/chat")
 public class ChatApiController {
 
@@ -54,10 +54,9 @@ public class ChatApiController {
     @PostMapping("/room/new")
     public ApiResponseMessage makeRoom(@RequestBody ChatRoomForm form) {
         ApiResponseMessage apiResponseMessage = new ApiResponseMessage();
-        chatRoomRepository.createChatRoom(form.getName());
+        chatRoomRepository.createChatRoom(form.getName(), form.getDescription());
         apiResponseMessage.setStatus("success");
         apiResponseMessage.setMessage("방을 성공적으로 만들었습니다.");
         return apiResponseMessage;
-
     }
 }
