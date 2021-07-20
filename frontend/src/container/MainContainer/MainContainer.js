@@ -6,7 +6,7 @@ import { MapContainer,CreateContainer,JoinContainer, MyPageContainer } from ".."
 const MainContainer = () => {
     return(
         <div className='Main' style={{border:'1px solid black', height:'90%'}}>
-        <Container textAlign='center'>
+        <Container textAlign='center' style={{height:'100%',width:'100%'}}>
           <Route exact path="/" component={() => {return (<div>this is main pages</div>)}}/>
           <Route exact path="/:id/Map" component={MapContainer}/>
           <Route exact path="/:id/Create" component={CreateContainer}/>

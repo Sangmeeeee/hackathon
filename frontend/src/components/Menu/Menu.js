@@ -7,13 +7,13 @@ const Menus = () => {
 
     const handleItemClick = (e, {name}) => {
         setActiveItem(name)
-        name === 'Logout' ? window.location.href='/' : window.location.href = `/id/${name}`
+        name === 'Logout' ? window.location.href='/' : window.location.href = `/${window.sessionStorage.getItem('ID')}/${name}`
     }
 
     return(
         <div className='Menus' style={{height:'10%',width:'100%'}}>
-          <img className='logo' src='/img/shadow.png' style={{width:'10%',height:'100%', position:'relative', left:'0'}}></img>
-          <Menu style={{position:'relative', right:'0'}}>
+          <a href='/'><img className='logo' src='/img/shadow.png' style={{width:'10%',height:'100%', position:'relative', left:'0'}}   ></img></a>
+          <Menu style={{position:'absolute', right:'10%',width:'fix-content'}}>
           <Menu.Item
             name='Join'
             active={activeItem === 'Join'}

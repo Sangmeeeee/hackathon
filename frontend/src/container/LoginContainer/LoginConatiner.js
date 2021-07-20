@@ -16,38 +16,46 @@ const LoginContainer = () => {
     const [ID,setID] = useState(null)
     const [PW,setPW] = useState(null)
 
-    const handleLogin = () => {
-        document.getElementsByClassName('LoginContainer')[0].remove()
-        // axios.post()
-    }
-
     const handleSignup = () => {
         window.location.href='/Signup'
     }
 
     const handleChangeID = (e) => {
         setID(e.target.value)
+        window.sessionStorage.setItem('ID',ID)
     }
 
     const handleChangePW = (e) => {
         setPW(e.target.value)
     }
 
+    const handleSubmit = () => {
+        axios.post('http://localhost:8080/api/login',{
+            loginId : ID,
+            password:PW,
+        }).then(res => {
+            if(res.data.status === 'success') {
+                window.location.href = '/'+ID
+                window.sessionStorage.setItem('ID',ID)
+            }
+        })
+    }
+
     return (
         <div className='LoginContainer'>
             <div className='LoginForm'>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Field>
                         <label>ID</label>
-                        <input onChange={handleChangeID.bind(this)} placeholder='ID' />
+                        <input name='loginId'onChange={handleChangeID.bind(this)} placeholder='ID' />
                     </Form.Field>
                     <Form.Field>
                         <label>PW</label>
-                        <input onChange={handleChangePW.bind(this)} type='password' placeholder='PW' />
+                        <input name='password' onChange={handleChangePW.bind(this)} type='password' placeholder='PW' />
                     </Form.Field>
                     <Container textAlign='center'>
-                        <Button onClick={handleLogin} >Login</Button>
-                        <Button onClick={handleSignup}>Signup</Button>
+                        <Button type='submit'>Login</Button>
+                        <Button type='button' onClick={handleSignup}>Signup</Button>
                     </Container>
                 </Form>
             </div>
