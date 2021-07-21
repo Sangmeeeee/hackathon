@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import mook.demo.repository.ChatRoomDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.TextMessage;
@@ -16,6 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter @Setter
+@Slf4j
 public class ChatRoom {
 
     private String roomId;
@@ -32,6 +34,7 @@ public class ChatRoom {
     }
 
     public void handleMessage(WebSocketSession session, ChatMessage chatMessage, ObjectMapper objectMapper) throws IOException {
+        log.info(chatMessage.getType().toString());
         if(chatMessage.getType() == MessageType.ENTER){
             sessions.add(session);
             chatMessage.setMessage(chatMessage.getWriter() + "님이 입장하셨습니다.");
@@ -43,8 +46,6 @@ public class ChatRoom {
         else if(chatMessage.getType() == MessageType.CHAT){
             chatMessage.setMessage(chatMessage.getWriter() + " : " + chatMessage.getMessage());
         }
-
-
         send(chatMessage, objectMapper);
 
     }
