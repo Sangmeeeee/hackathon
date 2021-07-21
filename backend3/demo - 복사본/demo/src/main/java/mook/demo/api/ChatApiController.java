@@ -25,7 +25,6 @@ import java.util.List;
 public class ChatApiController {
 
     private final ChatRoomRepository chatRoomRepository;
-    private final RestTemplate restTemplate;
 
     @GetMapping("/")
     public List<ChatRoom> rooms() {
@@ -60,17 +59,20 @@ public class ChatApiController {
     @PostMapping("/room/new")
     public ApiResponseMessage makeRoom(@RequestBody ChatRoomForm form) {
         ApiResponseMessage apiResponseMessage = new ApiResponseMessage();
-        chatRoomRepository.createChatRoom(form.getName(), form.getDescription());
+        ChatRoom chatRoom = chatRoomRepository.createChatRoom(form.getName(), form.getDescription());
 
         URI uri = UriComponentsBuilder
                 .fromUriString("http://localhost:9090")
                 .path("/api/update/room")
+                .queryParam("name",chatRoom.getName())
+                .queryParam("description",chatRoom.getDescription())
+                .queryParam("roomId",chatRoom.getRoomId())
                 .encode()
                 .build()
                 .toUri();
 
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
+        String result = restTemplate.getForObject(uri,String.class);
 
         apiResponseMessage.setStatus("success");
         apiResponseMessage.setMessage("방을 성공적으로 만들었습니다.");
