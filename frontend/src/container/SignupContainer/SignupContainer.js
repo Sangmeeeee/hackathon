@@ -34,6 +34,7 @@ const SignupContainer = () => {
         }).then(data => {
             console.log(data.headers)
             console.log(data)
+            console.log(data.data.errorMessage)
         })
     }
 

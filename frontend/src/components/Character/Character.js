@@ -13,9 +13,6 @@ const Character = (props) => {
     let y = 0
 
     useEffect(() => {
-    
-    // setPositionY(document.getElementsByClassName('Character')[0].parentElement.offsetTop)
-    // setPositionX(document.getElementsByClassName('Character')[0].parentElement.offsetLeft)
     setlimitX(document.getElementsByClassName('Character')[0].parentElement.offsetWidth + x)
     setlimitY(document.getElementsByClassName('Character')[0].parentElement.offsetHeight + y)
 
@@ -51,22 +48,22 @@ const Character = (props) => {
         window.addEventListener('keyup',(e) => {
             switch(e.code){
                 case 'KeyW' :
-                    console.log(`x : ${x}, y : ${y}`)
+                    console.log(`wx : ${x}, wy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_up1.png'
                     frame = 0
                     break;
                 case 'KeyS' :
-                    console.log(`x : ${x}, y : ${y}`)
+                    console.log(`sx : ${x}, sy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_down1.png'
                     frame = 0
                     break;
                 case 'KeyA' :
-                    console.log(`x : ${x}, y : ${y}`)
+                    console.log(`ax : ${x}, ay : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_left1.png'
                     frame = 0
                     break;
                 case 'KeyD' :
-                    console.log(`x : ${x}, y : ${y}`)
+                    console.log(`dx : ${x}, dy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_right1.png'
                     frame = 0
                     break;

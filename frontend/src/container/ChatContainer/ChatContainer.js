@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ChatContainer.css'
 import { Form, Button } from 'semantic-ui-react'
+import { socket_server } from '../../configs/configs'
 
-const ChatContainer = () => {
+const ChatContainer = (props) => {
     const [chat, setChat] = useState([])
     const [message,setmessage] = useState(null)
     const [type, settype] = useState(null)
     const [writer, setwriter] = useState(null)
     const [chatRoomId, setchatRoomId] = useState([])
+    const [socket, setSocket] = useState(null)
 
     const renderChat = () => {
         return chat.map(( { name, msg }, idx) => (
@@ -17,9 +19,14 @@ const ChatContainer = () => {
         ))
     }
 
+
     const handleSubmit = () => {
         setChat([...chat,{name: 'test', msg : document.getElementsByClassName('message')[0].value}])
     }
+
+    useState(() => {
+        console.log(props.socket)
+    })
 
     return (
         <div className='ChatContainer'>

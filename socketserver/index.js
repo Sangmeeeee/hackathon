@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express()
-const server = http.createServer(app)
+const server = http.Server(app)
 const io = require('socket.io')(server,
     {
         cors : {
@@ -23,21 +23,17 @@ server.listen(9090, () => {
 
 app.get('/api/update/room', (req, res) => {
     console.log(res)
+    
 })
 
 io.on('connection', socket => {
 
     socket.on('ENTER',(data) => {
         console.log(data)
-        // socket.join(data.roomId, () => {
-        //     console.log(`${data.ID}가 ${data.roomId}에 참여했습니다.`)
-        //     socket.emit('check')
-        // })
+        socket.join(data.roomId)
+        io.sockets.in(data.roomId).emit('hello', data.ID)
     })
 
-    socket.join('a', () => {
-        console.log('asd')
-    })
 
     socket.on('disconnect',() => {
 
