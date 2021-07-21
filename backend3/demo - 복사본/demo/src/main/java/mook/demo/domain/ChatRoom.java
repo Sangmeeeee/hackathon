@@ -40,9 +40,10 @@ public class ChatRoom {
             sessions.remove(session);
             chatMessage.setMessage(chatMessage.getWriter() + "님이 퇴장하셨습니다.");
         }
-        else{
+        else if(chatMessage.getType() == MessageType.CHAT){
             chatMessage.setMessage(chatMessage.getWriter() + " : " + chatMessage.getMessage());
         }
+
 
         send(chatMessage, objectMapper);
 
