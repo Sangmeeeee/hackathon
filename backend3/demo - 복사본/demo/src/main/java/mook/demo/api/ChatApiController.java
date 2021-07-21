@@ -1,6 +1,7 @@
 package mook.demo.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mook.demo.apiresult.ApiResponseMessage;
 import mook.demo.domain.ChatRoom;
 import mook.demo.domain.Member;
@@ -9,17 +10,22 @@ import mook.demo.repository.ChatRoomRepository;
 import mook.demo.session.SessionConst;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.URI;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/chat")
 public class ChatApiController {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final RestTemplate restTemplate;
 
     @GetMapping("/")
     public List<ChatRoom> rooms() {
@@ -55,6 +61,17 @@ public class ChatApiController {
     public ApiResponseMessage makeRoom(@RequestBody ChatRoomForm form) {
         ApiResponseMessage apiResponseMessage = new ApiResponseMessage();
         chatRoomRepository.createChatRoom(form.getName(), form.getDescription());
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://localhost:9090")
+                .path("/api/update/room")
+                .encode()
+                .build()
+                .toUri();
+
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+
         apiResponseMessage.setStatus("success");
         apiResponseMessage.setMessage("방을 성공적으로 만들었습니다.");
         return apiResponseMessage;

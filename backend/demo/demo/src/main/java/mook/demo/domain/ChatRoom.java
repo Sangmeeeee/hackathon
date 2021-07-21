@@ -25,6 +25,7 @@ public class ChatRoom {
     }
 
     public void handleMessage(WebSocketSession session, ChatMessage chatMessage, ObjectMapper objectMapper) throws IOException {
+        System.out.println("chatMessage = " + chatMessage.getType());
         if(chatMessage.getType() == MessageType.ENTER){
             sessions.add(session);
             chatMessage.setMessage(chatMessage.getWriter() + "님이 입장하셨습니다.");
