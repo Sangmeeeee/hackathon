@@ -8,9 +8,11 @@ import mook.demo.domain.Member;
 import mook.demo.dto.ChatRoomForm;
 import mook.demo.repository.ChatRoomRepository;
 import mook.demo.session.SessionConst;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -57,6 +59,11 @@ public class ChatController {
     public ApiResponseMessage makeRoom(@RequestBody ChatRoomForm form) {
         ApiResponseMessage apiResponseMessage = new ApiResponseMessage();
         chatRoomRepository.createChatRoom(form.getName(), form.getDescription());
+//        String result = restTemplate.postForObject("http://localhost:8082/restTest/", map, String.class);
+
+
+
+
         apiResponseMessage.setStatus("success");
         apiResponseMessage.setMessage("방을 성공적으로 만들었습니다.");
         return apiResponseMessage;

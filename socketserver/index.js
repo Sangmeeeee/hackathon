@@ -23,7 +23,8 @@ server.listen(9090, () => {
 
 app.get('/api/update/room', (req, res) => {
     console.log(res)
-    
+    console.log(req)
+    res.send("success")
 })
 
 io.on('connection', socket => {
