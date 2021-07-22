@@ -6,6 +6,7 @@ import MainContainer from "./MainContainer/MainContainer"
 import MapContainer from "./MapContainer/MapContainer"
 import MyPageContainer from './MyPageContainer/MyPageContainer'
 import SignupContainer from "./SignupContainer/SignupContainer"
+// import VideoContainer from "./VideoContainer/VideoContainer"
 
 
 export {
@@ -16,5 +17,6 @@ export {
     CreateContainer,
     JoinContainer,
     MyPageContainer,
-    SignupContainer
+    SignupContainer,
+    // VideoContainer
 }

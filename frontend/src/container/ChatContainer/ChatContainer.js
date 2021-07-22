@@ -5,7 +5,8 @@ import { socket_server } from '../../configs/configs'
 import SocketContext from '../../service/SocketProvider'
 
 const ChatContainer = (props) => {
-    const [chat, setChat] = useState([])
+    // const [chat, setChat] = useState([])
+    const chat = props.chat
     const socket = props.socket
     // socket.on('message',(data) => {
     //     console.log(data)
@@ -16,18 +17,17 @@ const ChatContainer = (props) => {
     const renderChat = () => {
         return chat.map(( { name, msg }, idx) => (
             <div key={idx}>
-                <h3>{`${name} : ${msg}`}</h3>
+                <h5>{`${name} : ${msg}`}</h5>
             </div>
         ))
     }
 
-    useEffect(() => {
-
-        socket.on('message',(data) => {
-            // console.log(data)
-            setChat(chat => ([...chat,{name: data.ID, msg : data.message}]))
-        })
-    })
+    // useEffect(() => {
+    //     // socket.on('message',(data) => {
+    //     //     console.log(data)
+    //     //     setChat(chat => ([...chat,{name: data.ID, msg : data.message}]))
+    //     // })
+    // })
 
     const handleSubmit = () => {
         socket.emit('CHAT', {ID : window.sessionStorage.getItem('ID'), roomId : props.roomId, message : document.getElementsByClassName('message')[0].value})

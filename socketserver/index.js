@@ -1,9 +1,14 @@
-const http = require('http')
+const fs = require('fs')
+const https = require('https')
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express()
-const server = http.Server(app)
+// const server = https.createServer({
+//     key : fs.readFileSync('./private.pem','utf-8'),
+//     cert : fs.readFileSync('./public.pem','utf-8')
+// })
+const server = require('http').createServer(app)
 const io = require('socket.io')(server,
     {
         cors : {
@@ -11,55 +16,67 @@ const io = require('socket.io')(server,
             methods : ["GET","POST"]
         }
     })
+// const io = require('socket.io')
 
 let rooms = new Object()
 
 app.use(cors())
 app.use(bodyParser.json())
 
-server.listen(9090, () => {
-    console.log('9090 port is open')
+const PORT = process.env.PORT || 5000
+
+server.listen(PORT, () => {
+    console.log(`${PORT} port is open`)
 })
 
 app.get('/api/update/room', (req, res) => {
-    console.log(req.query)
     rooms[req.query.roomId] = new Object()
-    console.log('rooms : ',rooms)
     res.send("success")
 })
 
 io.on('connection', socket => {
+    console.log(socket.id)
+    socket.emit('getmysocketId', {socketId: socket.id})
 
     socket.on('ENTER', async (data) => {
         await socket.join(data.roomId)
-        // console.log('data : ',data)
-        let location  = new Object()
-        location['x'] = 0
-        location['y'] = 0
-        rooms[data.roomId][data.ID] = location
-        console.log(rooms)
+        let User  = new Object()
+        User['x'] = 0
+        User['y'] = 0
+        User['socketId'] = socket.id
+        rooms[data.roomId][data.ID] = User
         io.sockets.in(data.roomId).emit('HELLO',rooms[data.roomId])
     })
 
     socket.on('CHAT', (data) => {
-        console.log(data)
+        console.log('CHAT',data)
         io.sockets.in(data.roomId).emit('message',{ID:data.ID, message : data.message})
     })
 
     socket.on('MOVE', (data) => {
-        console.log(rooms)
-        console.log(data)
-        console.log(data.characterID)
-        console.log(rooms[data.roomId])
-        console.log(rooms[data.roomId][data.characterID])
+        console.log('MOVE', data)
         rooms[data.roomId][data.characterID].x = data.x
         rooms[data.roomId][data.characterID].y = data.y
-        // io.sockets.in(data.roomId).emit('SETLOCATION', {characterID : data.characterID, x : data.x,y : data.y})
+        rooms[data.roomId][data.characterID].socketId = data.socketId
+        rooms[data.roomId][data.characterID].dir = data.dir
+        rooms[data.roomId][data.characterID].frame = data.frame
         io.sockets.in(data.roomId).emit('SETLOCATION',rooms[data.roomId])
     })
 
+    socket.on('canIwebRTC', (data) => {
+        console.log('canIwebRTC',data)
+        io.to(data.remotesocketId).emit('sendSdOffer',data.mysocketId)
+    })
+
+    socket.on('webrtc',(data) => {
+        console.log('webrtc',data)
+        if(data.type == "SDP")
+            io.to(data.socketId).emit('webrtc',data)
+        else
+            io.to(data.socketId).emit('webrtc',data)
+    })
 
     socket.on('disconnect',() => {
-    
+        console.log('socket out',socket.id)
     })
 })

@@ -4,6 +4,17 @@ server:
       tracking-modes: cookie
       timeout: 1800
 
+  ssl:
+    key-store: kanu-keystore.p12
+    key-store-type: PKCS12
+    key-store-password: 123456
+    key-alias: kanu-keystore
+#      enabled: true
+#      key-alias: alias_name
+#      key-store: certificate.p12
+#      key-store-type: PKCS12
+#      key-store-password: 123456
+
 spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/demo
@@ -21,6 +32,7 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
 #server.servlet.session.tracking-modes=cookie
 #server.servlet.session.timeout=1800
 #spring.datasource.url=jdbc:h2:tcp://localhost/~/demo;MVCC=TRUE

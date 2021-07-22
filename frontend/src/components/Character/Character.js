@@ -8,52 +8,51 @@ const Character = (props) => {
     let y = props.y
     let characterID = props.characterID
     let roomId = props.roomId
-    let limitX = 1000
-    let limitY = 800
+    let limitX = 960
+    // console.log(document.getElementsByClassName('Character')[0])
+    let limitY = 480
+    let socketId = props.socketId
+    let frames = props.frame
+    let dir = props.dir
 
-    if(props.myCharacter !== 'my'){
-    const a = () => {console.log(this)}
-        a()
-    }
 
     useEffect(() => {
-        if(props.socket!=undefined)
-            console.log(props.socket)
-        if(props.myCharacter === 'my')
-            console.log(document.getElementsByClassName('Character')[0])
-            
+        console.log('x',x)
+        if(x !== 0) x = 0
+        if(y !== 0) y = 0
+        console.log('y',y)
         window.addEventListener('keypress',(e) => {
-            // document.getElementsByClassName('Character')[0].addEventListener('keypress', (e) => {
             switch(e.code){
                 case 'KeyW' :
                     y - 10 > 0 ? y -= 10 : y = y
+                    // frame+=1
+                    frame = frame % 3 + 1
                     if(props.socket != undefined)
-                        props.socket.emit('MOVE',{characterID,roomId,x,y})
-                    frame+=1
-                    document.getElementsByClassName('Character')[0].children[1].src = `/img/male/male_walk_up${frame%3 + 1}.png`
+                        props.socket.emit('MOVE',{characterID,roomId,x,y, socketId, dir:'up', frame:frame})
+                    document.getElementsByClassName('Character')[0].children[1].src = `/img/male/male_walk_up${frame}.png`
                     document.getElementsByClassName('Character')[0].style.top = y + 'px'
                     break;
                 case 'KeyS' :
-                    y + 10 < limitY ? y += 10 : y = y
+                    y + 10 + document.getElementsByClassName('Character')[0].offsetHeight < limitY ? y += 10 : y = y
+                    frame = frame % 3 + 1
                     if(props.socket != undefined)
-                        props.socket.emit('MOVE',{characterID,roomId,x,y})
-                    frame+=1
+                        props.socket.emit('MOVE',{characterID,roomId,x,y, socketId, dir:'down', frame:frame})
                     document.getElementsByClassName('Character')[0].children[1].src = `/img/male/male_walk_down${frame%3 + 1}.png`
                     document.getElementsByClassName('Character')[0].style.top = y + 'px'
                     break;
                 case 'KeyA' :
                     x - 10 > 0 ? x -= 10 : x = x
+                    frame = frame % 3 + 1
                     if(props.socket != undefined)
-                        props.socket.emit('MOVE',{characterID,roomId,x,y})
-                    frame+=1
+                        props.socket.emit('MOVE',{characterID,roomId,x,y, socketId, dir:'left', frame:frame})
                     document.getElementsByClassName('Character')[0].children[1].src = `/img/male/male_walk_left${frame%3 + 1}.png`
                     document.getElementsByClassName('Character')[0].style.left = x + 'px'
                     break;
                 case 'KeyD' :
-                    x + 10 < limitX ? x += 10 : x = x
+                    x + 10 + document.getElementsByClassName('Character')[0].offsetWidth < limitX ? x += 10 : x = x
+                    frame = frame % 3 + 1
                     if(props.socket != undefined)
-                        props.socket.emit('MOVE',{characterID,roomId,x,y})
-                    frame+=1
+                        props.socket.emit('MOVE',{characterID,roomId,x,y, socketId, dir:'right', frame:frame})
                     document.getElementsByClassName('Character')[0].children[1].src = `/img/male/male_walk_right${frame%3 + 1}.png`
                     document.getElementsByClassName('Character')[0].style.left = x + 'px'
                     break;
@@ -61,27 +60,30 @@ const Character = (props) => {
         })
     
         window.addEventListener('keyup',(e) => {
-        // document.getElementsByClassName('Character')[0].addEventListener('keyup', (e) => {
             switch(e.code){
                 case 'KeyW' :
-                    // console.log(`wx : ${x}, wy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_up1.png'
-                    frame = 0
+                    frame = 1
+                    if(props.socket != undefined)
+                        props.socket.emit('MOVE',{characterID,roomId,x,y, socketId, dir:'up', frame:frame})
                     break;
                 case 'KeyS' :
-                    // console.log(`sx : ${x}, sy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_down1.png'
-                    frame = 0
+                    frame = 1
+                    if(props.socket != undefined)
+                        props.socket.emit('MOVE',{characterID,roomId,x,y, socketId, dir:'down', frame:frame})
                     break;
                 case 'KeyA' :
-                    // console.log(`ax : ${x}, ay : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_left1.png'
-                    frame = 0
+                    frame = 1
+                    if(props.socket != undefined)
+                        props.socket.emit('MOVE',{characterID,roomId,x,y, socketId, dir:'left', frame:frame})
                     break;
                 case 'KeyD' :
-                    // console.log(`dx : ${x}, dy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_right1.png'
-                    frame = 0
+                    frame = 1
+                    if(props.socket != undefined)
+                        props.socket.emit('MOVE',{characterID,roomId,x,y, socketId, dir:'right', frame:frame})
                     break;
             }
         })
@@ -89,10 +91,10 @@ const Character = (props) => {
 
 
     return(
-        <div className='Character'>
+        <div className='Character' style={{top:y, left:x}}>
             <p>{characterID}</p>
-            <img src='/img/male/male_walk_down1.png' height='32' width='32'></img>
-            <img src='/img/shadow.png' height='32' width='32' style={{position:'relative', display:'block', top:'-20px'}}></img>
+            <img src={`/img/male/male_walk_${dir}${frames}.png`} height='32' width='32'></img>
+            <img src='/img/shadow.png' height='32' width='32' style={{position:'relative', display:'block', top:'-20px', left:'15px'}}></img>
         </div>
     )
 }
