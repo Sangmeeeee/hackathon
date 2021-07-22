@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import './ChatContainer.css'
 import { Form, Button } from 'semantic-ui-react'
 import { socket_server } from '../../configs/configs'
+import SocketContext from '../../service/SocketProvider'
 
 const ChatContainer = (props) => {
     const [chat, setChat] = useState([])
-    const [message,setmessage] = useState(null)
-    const [type, settype] = useState(null)
-    const [writer, setwriter] = useState(null)
-    const [chatRoomId, setchatRoomId] = useState([])
-    const [socket, setSocket] = useState(null)
+    const socket = props.socket
+    // socket.on('message',(data) => {
+    //     console.log(data)
+    //     setChat(chat => ([...chat,{name: data.ID, msg : data.message}]))
+    // })
+    // console.log(socket)
 
     const renderChat = () => {
         return chat.map(( { name, msg }, idx) => (
@@ -19,14 +21,18 @@ const ChatContainer = (props) => {
         ))
     }
 
+    useEffect(() => {
+
+        socket.on('message',(data) => {
+            // console.log(data)
+            setChat(chat => ([...chat,{name: data.ID, msg : data.message}]))
+        })
+    })
 
     const handleSubmit = () => {
-        setChat([...chat,{name: 'test', msg : document.getElementsByClassName('message')[0].value}])
+        socket.emit('CHAT', {ID : window.sessionStorage.getItem('ID'), roomId : props.roomId, message : document.getElementsByClassName('message')[0].value})
     }
 
-    useState(() => {
-        console.log(props.socket)
-    })
 
     return (
         <div className='ChatContainer'>

@@ -1,5 +1,5 @@
-const api_server = 'http://localhost:8080'
-const socket_server = 'ws://61.42.104.131:8080'
+const api_server = 'http://61.42.104.74:8080'
+const socket_server = 'http://61.42.104.74:9090'
 
 export {
     api_server,

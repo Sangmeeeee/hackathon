@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './JoinContainer.css'
 import { Container, List, Input } from 'semantic-ui-react'
 import axios from 'axios'
+import { api_server } from '../../configs/configs'
 
 const JoinContainer = () => {
     const [ListItems, setListItems] = useState([ ])
@@ -18,7 +19,7 @@ const JoinContainer = () => {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/chat/')
+        axios.get(`${api_server}/api/chat/`)
         .then(res => {
             console.log(res.data)
             let list = new Array()

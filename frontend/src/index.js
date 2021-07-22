@@ -2,9 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import socketio from 'socket.io-client'
+import { socket_server } from './configs/configs';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom'
+import SocketContext from './service/SocketProvider';
 import 'semantic-ui-css/semantic.min.css'
+
 
 ReactDOM.render(
   <BrowserRouter>

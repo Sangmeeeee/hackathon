@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import './CreateContainer.css'
 import { Form, Checkbox, Button } from 'semantic-ui-react'
+import { api_server } from '../../configs/configs'
 
 /*
 
@@ -31,7 +32,7 @@ const CreateContainer = () => {
 
 
     const handleSubmit = () => {
-        axios.post('http://localhost:8080/api/chat/room/new',{
+        axios.post(`${api_server}/api/chat/room/new`,{
             name : roonName,
             description : roomDescription
         }).then(res => {

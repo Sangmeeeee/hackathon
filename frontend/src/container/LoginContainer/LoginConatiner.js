@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Form, Checkbox, Button, Container} from 'semantic-ui-react'
 import axios from 'axios'
+import { api_server } from '../../configs/configs'
 import './LoginContainer.css'
 
 
@@ -30,7 +31,7 @@ const LoginContainer = () => {
     }
 
     const handleSubmit = () => {
-        axios.post('http://localhost:8080/api/login',{
+        axios.post(`${api_server}/api/login`,{
             loginId : ID,
             password:PW,
         }).then(res => {

@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from "react"
 import './SignupContainer.css'
 import { Form,Container,Button } from "semantic-ui-react"
+import { api_server } from "../../configs/configs"
 import axios from "axios"
 
 axios.defaults.withCredentials = true
@@ -27,7 +28,7 @@ const SignupContainer = () => {
     }
 
     const handleSubmit = () => {
-        axios.post('http://localhost:8080/api/member/add',{
+        axios.post(`${api_server}/api/member/add`,{
             loginId : ID,
             password:PW,
             name : name
