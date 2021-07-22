@@ -7,6 +7,14 @@ import { socket_server } from '../../configs/configs'
 import { Button } from 'semantic-ui-react'
 import SocketContext from '../../service/SocketProvider'
 
+const pc_config = {
+    iceServers : [
+        {
+            urls : 'stun:stun.l.google.com:19302'
+        }
+    ]
+}
+
 const MapContainer = (props) =>  {
     const [character, setCharacter] = useState({})
     const socket = socketio.connect(socket_server)
@@ -32,18 +40,6 @@ const MapContainer = (props) =>  {
         })
         }
     }
-
-    // const renderCharater = useCallback((e) => {
-    //     if(Object.keys(character).length !== 0){
-    //     return character.map(value => {
-    //         let ID = Object.keys(value)   
-    //         if(ID != window.sessionStorage.getItem('ID'))
-    //         return (
-    //           <Character roomId={roomId} characterID={ID} x={value.x} y={value.y}></Character>
-    //        )
-    //     })
-    // }
-    // },[])
 
     useEffect(() => {
     socket.emit('ENTER',{ID : window.sessionStorage.getItem('ID'), roomId : props.match.params.roomId})

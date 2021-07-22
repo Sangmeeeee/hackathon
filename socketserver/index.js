@@ -1,9 +1,14 @@
-const http = require('http')
+const fs = require('fs')
+const https = require('https')
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express()
-const server = http.Server(app)
+// const server = https.createServer({
+//     key : fs.readFileSync('./private.pem','utf-8'),
+//     cert : fs.readFileSync('./public.pem','utf-8')
+// })
+const server = require('http').createServer(app)
 const io = require('socket.io')(server,
     {
         cors : {
@@ -11,32 +16,35 @@ const io = require('socket.io')(server,
             methods : ["GET","POST"]
         }
     })
+// const io = require('socket.io')
 
 let rooms = new Object()
 
 app.use(cors())
 app.use(bodyParser.json())
 
-server.listen(9090, () => {
-    console.log('9090 port is open')
+const PORT = process.env.PORT || 5000
+
+server.listen(PORT, () => {
+    console.log(`${PORT} port is open`)
 })
 
 app.get('/api/update/room', (req, res) => {
-    // console.log(req.query)
     rooms[req.query.roomId] = new Object()
-    // console.log('rooms : ',rooms)
     res.send("success")
 })
 
 io.on('connection', socket => {
-
+    // console.log(socket)
     socket.on('ENTER', async (data) => {
         await socket.join(data.roomId)
         // console.log('data : ',data)
-        let location  = new Object()
-        location['x'] = 0
-        location['y'] = 0
-        rooms[data.roomId][data.ID] = location
+        let User  = new Object()
+        User['x'] = 0
+        User['y'] = 0
+        
+        
+        rooms[data.roomId][data.ID] = User
         // console.log(rooms)
         io.sockets.in(data.roomId).emit('HELLO',rooms[data.roomId])
     })

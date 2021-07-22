@@ -26,7 +26,7 @@ public class LoginCheckFilter implements Filter {
         String requestURI = httpRequest.getRequestURI();
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        httpResponse.setHeader("Access-Control-Allow-Origin", "http://61.42.104.74:3000"); //허용대상 도메인
+        httpResponse.setHeader("Access-Control-Allow-Origin", "https://61.42.104.74:3000"); //허용대상 도메인
         httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpResponse.setHeader("Access-Control-Max-Age", "3600");
