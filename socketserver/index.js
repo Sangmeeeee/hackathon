@@ -22,9 +22,9 @@ server.listen(9090, () => {
 })
 
 app.get('/api/update/room', (req, res) => {
-    console.log(req.query)
+    // console.log(req.query)
     rooms[req.query.roomId] = new Object()
-    console.log('rooms : ',rooms)
+    // console.log('rooms : ',rooms)
     res.send("success")
 })
 
@@ -37,21 +37,21 @@ io.on('connection', socket => {
         location['x'] = 0
         location['y'] = 0
         rooms[data.roomId][data.ID] = location
-        console.log(rooms)
+        // console.log(rooms)
         io.sockets.in(data.roomId).emit('HELLO',rooms[data.roomId])
     })
 
     socket.on('CHAT', (data) => {
-        console.log(data)
+        // console.log(data)
         io.sockets.in(data.roomId).emit('message',{ID:data.ID, message : data.message})
     })
 
     socket.on('MOVE', (data) => {
-        console.log(rooms)
-        console.log(data)
-        console.log(data.characterID)
-        console.log(rooms[data.roomId])
-        console.log(rooms[data.roomId][data.characterID])
+        // console.log(rooms)
+        // console.log(data)
+        // console.log(data.characterID)
+        // console.log(rooms[data.roomId])
+        // console.log(rooms[data.roomId][data.characterID])
         rooms[data.roomId][data.characterID].x = data.x
         rooms[data.roomId][data.characterID].y = data.y
         // io.sockets.in(data.roomId).emit('SETLOCATION', {characterID : data.characterID, x : data.x,y : data.y})

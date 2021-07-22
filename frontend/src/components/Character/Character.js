@@ -12,11 +12,11 @@ const Character = (props) => {
     let limitY = 800
 
     if(props.myCharacter !== 'my'){
-    const a = () => {console.log(this)}
-        a()
+        console.log(characterID)
     }
 
     useEffect(() => {
+        console.log(props)
         if(props.socket!=undefined)
             console.log(props.socket)
         if(props.myCharacter === 'my')
@@ -64,22 +64,18 @@ const Character = (props) => {
         // document.getElementsByClassName('Character')[0].addEventListener('keyup', (e) => {
             switch(e.code){
                 case 'KeyW' :
-                    // console.log(`wx : ${x}, wy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_up1.png'
                     frame = 0
                     break;
                 case 'KeyS' :
-                    // console.log(`sx : ${x}, sy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_down1.png'
                     frame = 0
                     break;
                 case 'KeyA' :
-                    // console.log(`ax : ${x}, ay : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_left1.png'
                     frame = 0
                     break;
                 case 'KeyD' :
-                    // console.log(`dx : ${x}, dy : ${y}`)
                     document.getElementsByClassName('Character')[0].children[1].src = '/img/male/male_walk_right1.png'
                     frame = 0
                     break;
@@ -89,7 +85,7 @@ const Character = (props) => {
 
 
     return(
-        <div className='Character'>
+        <div className='Character' style={{top:y, left:x}} onClick={props.onClick}>
             <p>{characterID}</p>
             <img src='/img/male/male_walk_down1.png' height='32' width='32'></img>
             <img src='/img/shadow.png' height='32' width='32' style={{position:'relative', display:'block', top:'-20px'}}></img>

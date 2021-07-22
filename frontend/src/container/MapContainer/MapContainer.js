@@ -16,11 +16,18 @@ const MapContainer = (props) =>  {
         if(Object.keys(character).length !== 0){
         return character.map(value => {
             let ID = Object.keys(value)
-            let x = value.x
-            let y = value.y   
+            let x = value[ID].x
+            let y = value[ID].y   
+            // console.log(`${ID} : ${x} , ${y}`)
             if(ID != window.sessionStorage.getItem('ID'))
             return (
-              <Character  roomId={roomId} characterID={ID}  x={value.x} y={value.y} ></Character>
+              <Character
+                roomId={roomId}
+                characterID={ID} 
+                x={value[ID].x}
+                y={value[ID].y}
+                onClick={() => alert(`${ID}`)} 
+              />
            )
         })
         }
@@ -58,10 +65,8 @@ const MapContainer = (props) =>  {
             member[keys[idx]] = data[value]
             return member
         })
-        // console.log(results)
-        // setCharacter(character => [...results])
+        // console.log('get setLocation msg', results)
         setCharacter(character => [...results])
-        // console.log(character)
     })
     
     return() => {
@@ -72,10 +77,15 @@ const MapContainer = (props) =>  {
     return (
         <div className='MapContainer'>
             <div className="Map" >
-                <Character  socket={socket} myCharacter='my' characterID = {window.sessionStorage.getItem('ID')} x={0} y ={0} roomId={roomId}></Character>
-                {
-                    renderCharater()
-                }
+                <Character  
+                    socket={socket}
+                    myCharacter='my'
+                    characterID = {window.sessionStorage.getItem('ID')}
+                    x={0}
+                    y ={0}
+                    roomId={roomId}
+                />
+                {renderCharater()}
                 <ChatContainer socket={socket} roomId={props.match.params.roomId} ></ChatContainer>
             </div>
         </div>
