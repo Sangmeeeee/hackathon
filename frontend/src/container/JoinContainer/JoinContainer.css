@@ -4,12 +4,11 @@
     text-align: center;
 }
 
-.JoinSearch{
-    width: 50%;
-    height:30%;
-}
-
 .SearchResult{
     width: 50%;
     height: 50%;
+    left:50%;
+    top:50%;
+    position:absolute;
+    transform: translate(-50%,-50%);
 }

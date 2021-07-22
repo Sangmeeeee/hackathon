@@ -12,8 +12,8 @@ const Menus = () => {
 
     return(
         <div className='Menus' style={{height:'10%',width:'100%'}}>
-          <a href='/'><img className='logo' src='/img/shadow.png' style={{width:'10%',height:'100%', position:'relative', left:'0'}}   ></img></a>
-          <Menu style={{position:'absolute', right:'10%',width:'fix-content'}}>
+          <a href={`/${window.sessionStorage.getItem('ID')}`}><img className='logo' src='/img/shadow.png' style={{width:'10%',height:'100%', position:'relative', left:'0'}}   ></img></a>
+          <Menu style={{position:'absolute', right:'10%',width:'fix-content', right:'0', top:'0'}}>
           <Menu.Item
             name='Join'
             active={activeItem === 'Join'}
@@ -24,11 +24,11 @@ const Menus = () => {
             active={activeItem === 'Create'}
             onClick={handleItemClick}
           />
-          <Menu.Item
+          {/* <Menu.Item
             name='MyPage'
             active={activeItem === 'MyPage'}
             onClick={handleItemClick}
-          />
+          /> */}
           <Menu.Item
             name='Logout'
             active={activeItem === 'Logout'}

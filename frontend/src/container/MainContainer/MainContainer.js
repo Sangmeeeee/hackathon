@@ -9,12 +9,12 @@ import SocketContext from '../../service/SocketProvider'
 
 const MainContainer = () => {
     return(
-        <div className='Main' style={{border:'1px solid black', height:'90%'}}>
+        <div className='Main'>
         <Container textAlign='center' style={{height:'100%',width:'100%'}}>
-          <Route exact path="/" component={() => {return (<div>this is main pages</div>)}}/>
-            <Route exact path="/map/:id/:roomId" component={MapContainer}/>
+          <Route exact path="/:id" component={() => {return (<div>{`hello!! ${window.sessionStorage.getItem('ID')}`}</div>)}}/>
+          <Route exact path="/map/:id/:roomId" component={MapContainer}/>
           <Route exact path="/:id/Create" component={CreateContainer}/>
-          <Route exact path="/:id/MyPage" component={MyPageContainer}/>
+          {/* <Route exact path="/:id/MyPage" component={MyPageContainer}/> */}
           <Route exact path="/:id/Join" component={JoinContainer}/>
         </Container>
       </div>

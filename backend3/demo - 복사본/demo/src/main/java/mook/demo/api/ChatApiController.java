@@ -115,7 +115,6 @@ public class ChatApiController {
 //        RestTemplate restTemplate = new RestTemplate();
 //        restTemplate.setRequestFactory(requestFactory);
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println("asdasdasdasdasdasdasd");
 
         String result = restTemplate.getForObject(uri,String.class);
         System.out.println(result);

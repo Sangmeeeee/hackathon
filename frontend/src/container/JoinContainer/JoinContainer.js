@@ -11,7 +11,8 @@ const JoinContainer = () => {
         return ListItems.map(( {roomId, name, description},idx ) => (
             <List.Item>
             <List.Content>
-                <List.Header as='a' href={`/map/${name}/${roomId}`} >{`${name}/${roomId}`}</List.Header>
+                {/* <List.Header as='a' href={`/map/${name}/${roomId}`} >{`${name}/${roomId}`}</List.Header> */}
+                <List.Header as='a' href={`/map/${name}/${roomId}`} >{`${name}`}</List.Header>
                 <List.Description as='a'>{description}</List.Description>
             </List.Content>
             </List.Item>
@@ -28,7 +29,7 @@ const JoinContainer = () => {
             })
             setListItems(list)
         })
-    })
+    },[])
 
     return (
         <div className='JoinContainer'>
