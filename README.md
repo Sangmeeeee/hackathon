@@ -52,7 +52,7 @@
 
 # 시연 영상
 
-[유튜브](https://youtu.be/Aev7g9YvzOY)
+[유튜브](https://youtu.be/zdsbHRJo0xY)
 
 
 
