@@ -66,12 +66,15 @@
 ![image](https://user-images.githubusercontent.com/52579096/126692183-8acbd259-3705-4a10-ad85-68f61fed4263.png)
 
 
-
 # 추후 구현 사항
 
+- WebRTC
+- 움직임
 
+# 실행방법
 
-
+- frontend : HTTPS=true npm start로 실행하여 configs폴더내의 api_server를 원하는 api server의 주소(spring boot)로 지정한다.
+- backend : nodejs서버는 배포 완료하였으며 springboot server는 https통신이 필요하기 때문에 인증서를 발급받아 환경설정에 넣어준다음 실행한다. 만약 front와 back 둘다 같은 local에서 실행할경우 cors에 ip주소를 넣어준다. 또한 spring boot는 h2 database를 사용하였기 때문에 h2를 실행하여 테스트 진행한다.
 
 # 팀원 및 담당 업무
 
