@@ -12,7 +12,7 @@ const Menus = () => {
 
     return(
         <div className='Menus' style={{height:'10%',width:'100%'}}>
-          <a href={`/${window.sessionStorage.getItem('ID')}`}><img className='logo' src='/img/shadow.png' style={{width:'10%',height:'100%', position:'relative', left:'0'}}   ></img></a>
+          <a href={`/${window.sessionStorage.getItem('ID')}`}><img className='logo' src='/img/logo.png' style={{width:'20%',height:'100%', position:'relative', left:'0'}}   ></img></a>
           <Menu style={{position:'absolute', right:'10%',width:'fix-content', right:'0', top:'0'}}>
           <Menu.Item
             name='Join'

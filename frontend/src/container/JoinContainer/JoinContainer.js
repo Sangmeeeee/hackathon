@@ -33,7 +33,7 @@ const JoinContainer = () => {
 
     return (
         <div className='JoinContainer'>
-            <div className='SearchResult'>
+            <div className='SearchResult' style={{overflow:'auto'}}>
                 <List divided relaxed style={{height:'100%'}}>
                     {renderListItems()}
                 </List>

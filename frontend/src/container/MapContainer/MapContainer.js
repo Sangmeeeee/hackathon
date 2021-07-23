@@ -7,6 +7,7 @@ import { socket_server } from '../../configs/configs'
 import { Button } from 'semantic-ui-react'
 import SocketContext from '../../service/SocketProvider'
 import VideoContainer from '../VideoContainer/VideoContainer'
+import ReactAudioPlayer from 'react-audio-player'
 
 const pc_config = {
     iceServers : [
@@ -22,16 +23,27 @@ const MapContainer = (props) =>  {
     const [mysocketId, setmysocketId] = useState(null)
     const [remotesocketId, setremotesocketId] = useState(null)
     const [chat, setChat] = useState([])
+    const [socket,setsocket] = useState(null)
+    const [myx, setX] = useState(0)
+    const [myy, setY] = useState(0)
     
-    // let mysocketId = null
-    const socket = socketio.connect(socket_server)
+
+    var mx = 0
+
+    var my = 0
+    // const socket = socketio.connect(socket_server, {transports:['websocket']})
+    // console.log(socket)
+
     // const rtcPeerConnection = new RTCPeerConnection(pc_config)
     // console.log(rtcPeerConnection)
+
     let roomId = props.match.params.roomId 
     
     const renderCharater = () => {
+        console.log(document.getElementsByClassName('Character'))
         if(Object.keys(character).length !== 0){
-        return character.map(value => {
+        return character.map((value,idx) => {
+            console.log(value)
             let ID = Object.keys(value)
             let x = value[ID].x
             let y = value[ID].y   
@@ -43,12 +55,12 @@ const MapContainer = (props) =>  {
             // console.log(`${ID} : ${x} , ${y}`)
             if(ID != window.sessionStorage.getItem('ID'))
             return (
-                <div onClick={async () => {
+                <div key={idx} onClick={async () => {
                     await setremotesocketId(value[ID].socketId) // 상대방 소켓 아이디
                     console.log(value[ID].socketId)
                     // socket.emit('canIwebRTC', {remotesocketId : socketId, mysocketId : mysocketId})
                  }} >
-                    <Character
+                    <Character className='Other'
                         roomId={roomId}
                         characterID={ID} 
                         x={value[ID].x}
@@ -56,30 +68,31 @@ const MapContainer = (props) =>  {
                         socketId = {socketId}
                         dir={value[ID].dir}
                         frame={
-                            value[ID] === 0 ? 
-                            1 : value[ID].frame
+                            value[ID] === 0 ? 1 : 1
                         }
                     />
                 </div>
            )
+     
+        //    else{
+            // mx = x
+            // my = y
+            // console.log('my,mx',my,mx)
+            // document.getElementsByClassName('Character')[0].style.left = mx + 'px'
+            // document.getElementsByClassName('Character')[0].style.top = my + 'px'
+        //    }
         })
         }
     }
 
-    useEffect(async () => {
-        // navigator.mediaDevices
-        // .getUserMedia({ video: true, audio: false })
-        // .then(mediaStream => {
-        //     document.getElementsByClassName('localVideo')[0].srcObject = mediaStream
-        //     mediaStream.getTracks().forEach(track => rtcPeerConnection.addTrack(track))
-        // })
-        // .catch(err => {
-        //     console.error(err.message)
-        //     console.error(err.name)
-        //     console.error(err.code)
-        // })
 
-        // console.log(socket)
+    useEffect(() => {
+        console.log('socket connect')
+        setsocket(socketio.connect(socket_server, {transports:['websocket']}))
+    },[])
+    useEffect(async () => {
+
+        if(socket != null){
         socket.emit('ENTER',{ID : window.sessionStorage.getItem('ID'), roomId : props.match.params.roomId})
 
         socket.on('getmysocketId', (socketId) => {
@@ -96,6 +109,7 @@ const MapContainer = (props) =>  {
                 member[keys[idx]] = data[value]
                 return member
             })
+            console.log(result)
             setCharacter(character => [...result])
         })
         
@@ -106,7 +120,7 @@ const MapContainer = (props) =>  {
                 member[keys[idx]] = data[value]
                 return member
             })
-            // console.log('setlocation',results)
+            console.log('setlocation',results)
             setCharacter(character => [...results])
         })
 
@@ -114,6 +128,7 @@ const MapContainer = (props) =>  {
             // console.log(data)
             setChat(chat => ([...chat,{name: data.ID, msg : data.message}]))
         })
+    }
 
         // webrtc
 
@@ -184,26 +199,22 @@ const MapContainer = (props) =>  {
         //       };
         // });
 
-
     return() => {
-        // console.log(socket)
+        // socket.emit('reqDisconnect',({roomId,ID : window.sessionStorage.getItem('ID')}))
     }
-},[])
+},[socket])
+
     if(mysocketId != null)
     return (
         <div className='MapContainer'>
+            <audio src="/sound/backgroundmusic.mp3" autoPlay loop></audio>
+            <h2>room : {props.match.params.id }</h2>
             <div className="Map" >
-            {/* <div className='VideoContainer'>
-                <video className='localVideo' autoPlay playsInline />
-                <video className='remoteVideo' autoPlay playsInline/>
-            </div> */}
                 <Character  
                     socket={socket}
                     socketId={mysocketId}
                     myCharacter='my'
                     characterID = {window.sessionStorage.getItem('ID')}
-                    x = {0}
-                    y ={0}
                     roomId={roomId}
                     dir={'down'}
                     frame={'1'}

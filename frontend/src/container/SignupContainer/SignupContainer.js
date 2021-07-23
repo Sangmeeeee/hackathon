@@ -36,6 +36,8 @@ const SignupContainer = () => {
             console.log(data.headers)
             console.log(data)
             console.log(data.data.errorMessage)
+            if(data.data.status == "success") window.location.href = '/'
+            else alert(data.data.errorMessage)
         })
     }
 

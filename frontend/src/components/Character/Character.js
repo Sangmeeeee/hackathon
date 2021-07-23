@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react'
 import './Character.css'
 
 const Character = (props) => {
+    // const [myY,setY] = useState(0)
+    // const [myX,setX] = useState(0)
 
     let frame = 0
     let x = props.x
+    // if(x == undefined) x = 0
     let y = props.y
+    // if(y == undefined) y = 0
     let characterID = props.characterID
     let roomId = props.roomId
     let limitX = 960
@@ -17,10 +21,21 @@ const Character = (props) => {
 
 
     useEffect(() => {
-        console.log('x',x)
-        if(x !== 0) x = 0
-        if(y !== 0) y = 0
-        console.log('y',y)
+        if(props.myCharacter =='my'){
+        x = 0
+        y = 0
+        }
+    },[props.myCharacter])
+
+    useEffect(() => {
+            // if(x !== 0){ 
+            //     console.log(x)
+            //     x = 0
+            // }
+            // if(y !== 0) {
+            //     console.log('y',y)
+            //     y = 0
+            // }
         window.addEventListener('keypress',(e) => {
             switch(e.code){
                 case 'KeyW' :
@@ -92,7 +107,7 @@ const Character = (props) => {
 
     return(
         <div className='Character' style={{top:y, left:x}}>
-            <p>{characterID}</p>
+            <p style={{color:'white'}}>{characterID}</p>
             <img src={`/img/male/male_walk_${dir}${frames}.png`} height='32' width='32'></img>
             <img src='/img/shadow.png' height='32' width='32' style={{position:'relative', display:'block', top:'-20px', left:'15px'}}></img>
         </div>

@@ -44,7 +44,10 @@ io.on('connection', socket => {
         User['x'] = 0
         User['y'] = 0
         User['socketId'] = socket.id
-        rooms[data.roomId][data.ID] = User
+        User['dir'] = 'down'
+        User['frame'] = 1
+        rooms[data.roomId][data.ID] = await User
+        console.log('ENTER',rooms[data.roomId])
         io.sockets.in(data.roomId).emit('HELLO',rooms[data.roomId])
     })
 
@@ -77,6 +80,6 @@ io.on('connection', socket => {
     })
 
     socket.on('disconnect',() => {
-        console.log('socket out',socket.id)
+        
     })
 })

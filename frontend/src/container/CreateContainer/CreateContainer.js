@@ -17,11 +17,6 @@ const CreateContainer = () => {
     const [roonName, setRoomName] = useState(null)
     const [roomDescription, setRoomDescription] = useState(null)
 
-    useEffect(() => {
-        //통신해서 보유한 방이 있으면 hasRoom true
-        //없다면 false
-    })
-
     const handleChangeRoomName = (e) => {
         setRoomName(e.target.value)
     }
@@ -37,6 +32,8 @@ const CreateContainer = () => {
             description : roomDescription
         }).then(res => {
             console.log(res.data.status)
+            if(res.data.status == "success") window.location.href = `/${window.sessionStorage.getItem('ID')}/Join`
+            else alert('방 생성에 실패했습니다!')
         })
     }
 

@@ -6,7 +6,10 @@
 .Map{
     width: 960px;
     height: 480px;
-    background-color: brown;
+    /* background-color: brown; */
+    /* background-image: "/img/background.png"; */
+    background-image: url('./background.png');
+    background-repeat: no-repeat;
     position: relative;
     left:50%;
     top:50%; 

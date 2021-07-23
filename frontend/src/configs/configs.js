@@ -1,4 +1,4 @@
-const api_server = 'https://61.42.104.74:8080'
+const api_server = 'https://118.129.146.51:8080'
 const socket_server = 'https://video-chat-lsm.herokuapp.com'
 
 export {

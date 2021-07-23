@@ -16,7 +16,7 @@ const ChatContainer = (props) => {
 
     const renderChat = () => {
         return chat.map(( { name, msg }, idx) => (
-            <div key={idx}>
+            <div style={{textAlign:'left'}} key={idx}>
                 <h5>{`${name} : ${msg}`}</h5>
             </div>
         ))
@@ -31,12 +31,14 @@ const ChatContainer = (props) => {
 
     const handleSubmit = () => {
         socket.emit('CHAT', {ID : window.sessionStorage.getItem('ID'), roomId : props.roomId, message : document.getElementsByClassName('message')[0].value})
+        document.getElementsByClassName('message')[0].value=''
+
     }
 
 
     return (
         <div className='ChatContainer'>
-            <div className='Chat'>
+            <div className='Chat' style={{overflow:'auto'}}>
                 {renderChat()}
             </div>
             <Form onSubmit={handleSubmit}>

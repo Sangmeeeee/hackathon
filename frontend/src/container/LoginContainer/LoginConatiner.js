@@ -38,6 +38,8 @@ const LoginContainer = () => {
             if(res.data.status === 'success') {
                 window.location.href = '/'+ID
                 window.sessionStorage.setItem('ID',ID)
+            }else{
+                alert('로그인에 실패하셨습니다!')
             }
         })
     }
@@ -45,6 +47,7 @@ const LoginContainer = () => {
     return (
         <div className='LoginContainer'>
             <div className='LoginForm'>
+            <img className='loginImg' src='/img/login.png'></img>
                 <Form onSubmit={handleSubmit}>
                     <Form.Field>
                         <label>ID</label>
